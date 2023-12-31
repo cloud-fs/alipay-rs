@@ -27,8 +27,8 @@ fn get_moth_day(is_leap_year: bool, mut days: i32) -> (i32, i32) {
     }
     (moth as i32, day)
 }
-
-pub fn datetime() -> AlipayResult<String> {
+#[allow(dead_code)]
+pub fn datetime_old() -> AlipayResult<String> {
     use std::time::SystemTime;
     let timestamp = SystemTime::now()
         .duration_since(SystemTime::UNIX_EPOCH)?
@@ -59,4 +59,14 @@ pub fn datetime() -> AlipayResult<String> {
     Ok(format!(
         "{year}-{moth:>02}-{day:>02} {h:>02}:{m:>02}:{s:>02}",
     ))
+}
+pub fn datetime() -> AlipayResult<String> {
+    use chrono::prelude::*;
+    let dt = Local::now();
+    Ok(dt.format("%Y-%m-%d %H:%M:%S").to_string())
+
+}
+#[test]
+fn test_datetime() {
+    println!("{:?}", datetime());
 }
